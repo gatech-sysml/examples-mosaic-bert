@@ -62,8 +62,8 @@ optimizer:
   eps: 1.0e-06
   weight_decay: 1.0e-5 # Amount of weight decay regularization
 
-algorithms:
-  fused_layernorm: {}
+# algorithms:
+#   fused_layernorm: {}
 
 max_duration: 286720000sp # Subsample the training data for ~275M samples
 eval_interval: 1000ba

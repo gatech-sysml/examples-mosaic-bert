@@ -13,7 +13,7 @@ device = 'cuda'
 batch_size = 32
 max_sequence_len = 1024
 num_heads = 32
-embed_dimension = 1024
+embed_dimension = 32
 
 dtype = torch.float16
 

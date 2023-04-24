@@ -17,7 +17,14 @@ from examples.common.builders import (build_algorithm, build_callback,
                                       build_optimizer, build_scheduler)
 from examples.common.config_utils import log_config, update_batch_size_info
 
+# Inshrinkarator
 os.environ["NCCL_P2P_LEVEL"] = "NVL"
+import sys
+from os.path import abspath
+repo_path = abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
+sys.path.append(repo_path)
+from inshrinkarator.integrations.composer.callback import InshrinkaratorCallback
+
 
 def build_model(cfg: DictConfig):
     if cfg.name == 'hf_bert':
@@ -78,6 +85,19 @@ def main(cfg: DictConfig,
         build_callback(name, callback_cfg)
         for name, callback_cfg in cfg.get('callbacks', {}).items()
     ]
+    callbacks.append(InshrinkaratorCallback(
+        exclude_params=[
+            "model.bert.embeddings.token_type_embeddings.weight",
+            "model.bert.embeddings.position_embeddings.weight",
+            "model.cls.predictions.decoder.weight",
+        ],
+        wandb_project=cfg.loggers.wandb.project,
+        model_name=f"{cfg.model.name}-{cfg.model.pretrained_model_name}",
+    ))
+    # # TODO remove
+    # print("------------------")
+    # print(model)
+    # print("------------------")
 
     # Algorithms
     algorithms = [
