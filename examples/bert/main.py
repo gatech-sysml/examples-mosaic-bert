@@ -85,6 +85,7 @@ def main(cfg: DictConfig,
         build_callback(name, callback_cfg)
         for name, callback_cfg in cfg.get('callbacks', {}).items()
     ]
+
     callbacks.append(InshrinkaratorCallback(
         exclude_params=[
             "model.bert.embeddings.token_type_embeddings.weight",
@@ -93,11 +94,8 @@ def main(cfg: DictConfig,
         ],
         wandb_project=cfg.loggers.wandb.project,
         model_name=f"{cfg.model.name}-{cfg.model.pretrained_model_name}",
+        num_iter=int(cfg.max_duration.strip('sp')) // cfg.global_train_batch_size,
     ))
-    # # TODO remove
-    # print("------------------")
-    # print(model)
-    # print("------------------")
 
     # Algorithms
     algorithms = [
