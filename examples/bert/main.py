@@ -95,6 +95,7 @@ def main(cfg: DictConfig,
         wandb_project=cfg.loggers.wandb.project,
         model_name=f"{cfg.model.name}-{cfg.model.pretrained_model_name}",
         num_iter=int(cfg.max_duration.strip('sp')) // cfg.global_train_batch_size,
+        checkpoint_batch_frequency=int(cfg.save_interval.strip('ba'))
     ))
 
     # Algorithms
