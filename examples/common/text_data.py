@@ -174,7 +174,8 @@ def build_text_dataloader(cfg: DictConfig, device_batch_size: int):
         num_workers=cfg.num_workers,
         pin_memory=cfg.get('pin_memory', True),
         prefetch_factor=cfg.get('prefetch_factor', 2),
-        persistent_workers=cfg.get('persistent_workers', True),
+        # persistent_workers=cfg.get('persistent_workers', True),
+        persistent_workers=False,
         timeout=cfg.get('timeout', 0),
     )
 
